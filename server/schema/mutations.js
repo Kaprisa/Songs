@@ -16,7 +16,7 @@ const Mutation = new GraphQLObjectType({
 			}
 		},
 		addLyricToSong: {
-			type: LyricType,
+			type: SongType,
 			args: { 
 				songId: { type: GraphQLID },
 				content: { type: GraphQLString }

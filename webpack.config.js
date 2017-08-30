@@ -54,6 +54,7 @@ const webpackConfig = {
 			path: PATHS.output
 		}),
 		new webpack.NamedModulesPlugin(),
+		new webpack.HotModuleReplacementPlugin()
 	]
 }
 
