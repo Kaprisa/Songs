@@ -1,11 +1,24 @@
 import React, { Component } from 'react'
-//import { graphql } from 'react-apollo'
-//import mutation from '../mutations/likeLyric'
+import { graphql } from 'react-apollo'
+import mutation from '../mutations/likeLyric'
 
 class LyricList extends Component {
-	handleLike = () => {
-
+	handleLike = (id, likes) => {
+		this.props.mutate({
+			variables: { id },
+			optimisticResponse: {
+				__typename:'Mutation',
+				likeLyric: {
+					id,
+					__typename: 'LyricType',
+					likes: likes + 1
+				}
+			}
+		})
 	}
+	/*handlerDeleteLyric = (id) => {
+		this.props
+	}*/
 	render() {
 		const { lyrics } = this.props
 		return (
@@ -13,16 +26,13 @@ class LyricList extends Component {
 				{lyrics.map(lyric => (
 					<li key={lyric.id} className="collection-item">
 						<span className="song__title">{lyric.content}</span>
-						<i onClick={this.handleLike} className="material-icons">thumb_up</i>
+						<i onClick={() => this.handleLike(lyric.id, lyric.likes)} className="material-icons">thumb_up</i>
+						{ lyric.likes > 0 && <span className="likes-count">{lyric.likes}</span>}
 					</li>)
 				)}
 			</ul>
 		)
 	}
-}
+}//<i onClick={() => this.handlerDeleteLyric(lyric.id)} className="material-icons">delete</i>
 
-export default LyricList
-
-/*export default graphql(query, {
-	options: props => { return { variables: { id: props.songId} } }
-})(LyricList)*/
+export default graphql(mutation)(LyricList)

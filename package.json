@@ -5,7 +5,6 @@
   "author": "Kseniya",
   "license": "MIT",
   "scripts": {
-    "dev": "nodemon index.js --ignore client",
     "start": "nodemon index.js --ignore client --exec babel-node"
   },
   "devDependencies": {
