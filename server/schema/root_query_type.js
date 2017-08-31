@@ -1,7 +1,8 @@
 import mongoose from 'mongoose'
-import { GraphQLObjectType, GraphQLList, GraphQLID, GraphQLNonNull } from 'graphql'
+import { GraphQLObjectType, GraphQLList, GraphQLString, GraphQLID, GraphQLNonNull } from 'graphql'
 import SongType from './song_type'
 import LyricType from './lyric_type'
+import UserType from './user_type'
 const Song = mongoose.model('Song')
 const Lyric = mongoose.model('Lyric')
 
@@ -26,6 +27,12 @@ const RootQuery = new GraphQLObjectType({
 			args: { id: { type: new GraphQLNonNull(GraphQLID) } },
 			resolve(ParentValue, { id }) {
 				return Lyric.findById(id)
+			}
+		},
+		user: {
+			type: UserType,
+			resolve(ParentValue, args, req) {
+				return req.user
 			}
 		}
 	})

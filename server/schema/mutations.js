@@ -2,8 +2,11 @@ import { GraphQLObjectType, GraphQLString, GraphQLID } from 'graphql'
 import mongoose from 'mongoose'
 import SongType from './song_type'
 import LyricType from './lyric_type'
+import UserType from './user_type'
 const Song = mongoose.model('Song')
 const Lyric = mongoose.model('Lyric')
+const User = mongoose.model('User')
+import { signup, login } from '../services/auth'
 
 const Mutation = new GraphQLObjectType({
 	name: 'Mutation',
@@ -37,6 +40,34 @@ const Mutation = new GraphQLObjectType({
 			args: { id: { type: GraphQLID } },
 			resolve(ParentValue, { id }) {
 				return Song.remove({ _id: id })
+			}
+		},
+		signupUser: {
+			type: UserType,
+			args: { 
+				email: { type: GraphQLString },
+				password: { type: GraphQLString }
+		 	},
+		 	resolve(ParentValue, { email, password }, req) {
+		 		return signup({ email, password, req })
+		 	}
+		},
+		loginUser: {
+			type: UserType,
+			args: {
+				email: { type: GraphQLString },
+				password: { type: GraphQLString }
+			},
+			resolve(ParentValue, { email, password }, req) {
+				return login({ email, password, req })
+			}
+		},
+		logoutUser: {
+			type: UserType,
+			resolve(ParentValue, args, req) {
+				const { user } = req
+				req.logout()
+				return user
 			}
 		}
 	}

@@ -4,13 +4,23 @@
 
 .nav
 	display: flex
+	align-items: center
 	justify-content: center
+	position: relative
 	&__link
 		margin-right: 15px
 		font-size: 20px
 		transition: text-decoration .3s ease
 		&_active, &:hover
 			text-decoration: underline
+	&__buttons
+		position: absolute
+		top: 50%
+		transform: translateY(-50%)
+		right: 20px
+		.btn
+			margin-right: 10px
+
 
 i
 	cursor: pointer
@@ -31,3 +41,5 @@ i
 	line-height: 24px
 	font-size: 18px
 	vertical-align: top
+
+
